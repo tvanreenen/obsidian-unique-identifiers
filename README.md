@@ -1,94 +1,64 @@
-# Obsidian Sample Plugin
+# Obsidian Unique Identifiers
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+**Obsidian Unique Identifiers** is a plugin for [Obsidian](https://obsidian.md/) that automatically adds a unique identifier to the frontmatter of your notes. Choose from a variety of ID types and ensure every note is uniquely referenced for advanced workflows, integrations, and data management.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- **Automatic ID Insertion:** Automatically adds a unique identifier to the frontmatter whenever a new note is created.
+- **Multiple ID Types:** Choose from several industry-standard unique ID formats:
+  - UUID ([uuidjs/uuid](https://github.com/uuidjs/uuid))
+  - CUID ([paralleldrive/cuid2](https://github.com/paralleldrive/cuid2))
+  - NanoID ([ai/nanoid](https://github.com/ai/nanoid))
+  - ULID ([ulid/javascript](https://github.com/ulid/javascript))
+  - KSUID ([ValeriaVG/xksuid](https://github.com/ValeriaVG/xksuid))
+- **Exclude Paths:** Configure folders or files to exclude from automatic ID insertion.
+- **Bulk Backfill & Removal:** Add or remove IDs from existing notes in bulk via the plugin's settings page.
+- **Command Palette Integration:** Open the command palette (`Cmd+P` or `Ctrl+P`) to quickly add or refresh the configured ID on the active note.
 
-## First time developing plugins?
+## Example
 
-Quick starting guide for new plugin devs:
+Each ID type uses a frontmatter property of the same name (e.g., `uuid`, `cuid`, `nanoid`, `ulid`, `ksuid`). If you select `ulid` as your ID type, your note's frontmatter will look like:
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
-
-## Releasing new releases
-
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+```yaml
+---
+ulid: 01H8YQ2K4ZJ8V7Q2K4ZJ8V7Q2K
+---
 ```
 
-If you have multiple URLs, you can also do:
+## Installation
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+1. Open Obsidian's **Settings**.
+2. Go to **Community Plugins** → **Browse**.
+3. Search for "Unique Identifiers" and install.
+4. Enable the plugin.
+5. Configure your settings.
 
-## API Documentation
+## Contributing
 
-See https://github.com/obsidianmd/obsidian-api
+Contributions, issues, and feature requests are welcome!  
+Feel free to check [issues page](#) or submit a pull request.
+
+## Manual Installation & Development
+
+1. **Download or Clone the Repository**
+   ```sh
+   git clone https://github.com/tvanreenen/obsidian-unique-identifiers.git
+   ```
+2. **Install Dependencies**
+   ```sh
+   npm install
+   ```
+3. **Build the Plugin**
+   ```sh
+   npm run dev
+   ```
+4. **Copy Build Files**
+   - Copy `main.js`, `styles.css`, and `manifest.json` from the project root into a new folder named `unique-identifiers` inside your vault's `.obsidian/plugins/` directory:
+     ```
+     .obsidian/plugins/unique-identifiers/
+       ├── main.js
+       ├── styles.css
+       └── manifest.json
+     ```
+5. **Enable the Plugin**
+   - Open Obsidian, go to **Settings → Community Plugins**, and enable "Unique Identifiers".

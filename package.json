@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-unique-id",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Automatically assign and manage unique IDs in your Obsidian notes with support for UUID, ULID, NanoID, and CUID.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -20,5 +20,12 @@
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"dependencies": {
+		"@paralleldrive/cuid2": "^2.2.2",
+		"nanoid": "^5.1.5",
+		"ulid": "^3.0.0",
+		"uuid": "^11.1.0",
+		"xksuid": "^0.0.4"
 	}
 }

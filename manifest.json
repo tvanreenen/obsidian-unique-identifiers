@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "unique-identifiers",
+	"name": "Unique Identifiers",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Adds unique ID properties (UUID, CUID, NanoID, ULID, or KSUID) to note frontmatter. Supports auto-assignment and bulk operations to fill, refresh, or remove IDs.",
+	"author": "Tim VanReenen",
+	"authorUrl": "https://github.com/tvanreenen",
+	"fundingUrl": "https://buymeacoffee.com/tim.vanreenen",
 	"isDesktopOnly": false
 }
