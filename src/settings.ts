@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting, normalizePath } from 'obsidian';
 import UniqueIdPlugin from './main';
 import { idTypeList } from './id-types';
 import { getNoteStats, handleBulkIdOperation } from './utils';
@@ -18,9 +18,9 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 		containerEl.empty();
 		containerEl.createEl('h1', { text: 'Unique Identifiers' });
 
-		new Setting(containerEl)
-			.setName('Settings')
-			.setHeading();
+		// new Setting(containerEl)
+		// 	.setName('Settings')
+		// 	.setHeading();
 
 		new Setting(containerEl)
 			.setName('Automatically Add to New Notes')
@@ -49,7 +49,7 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Exclude Paths')
-			.setDesc('List of folders to exclude (one per line)')
+			.setDesc('List of folders or files to exclude (one per line)')
 			.addTextArea(text => {
 				text.setValue(this.plugin.settings.excludePaths.join('\n'));
 				text.inputEl.rows = 4;
@@ -57,13 +57,14 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 					this.plugin.settings.excludePaths = value
 						.split('\n')
 						.map(s => s.trim())
-						.filter(Boolean);
+						.filter(Boolean)
+						.map(normalizePath);
 					await this.plugin.saveSettings();
 				});
 			});
 
 		new Setting(containerEl)
-			.setName('Statistics')
+			.setName('Backfill & Conversion')
 			.setHeading();
 
 		// --- Per-ID-Type Progress Bars and Actions ---

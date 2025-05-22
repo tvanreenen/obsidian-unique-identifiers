@@ -1,6 +1,6 @@
 import { Plugin, TFile, Notice } from 'obsidian';
-import { UniqueIdSettingTab } from './settings';
-import { generateId, isExcluded } from './utils';
+import { UniqueIdSettingTab } from './src/settings';
+import { generateId, isExcluded } from './src/utils';
 
 interface UniqueIdSettings {
   idType: 'uuid' | 'ulid' | 'nanoid' | 'cuid' | `ksuid`;
