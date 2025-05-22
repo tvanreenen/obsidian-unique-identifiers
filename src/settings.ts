@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting, normalizePath } from 'obsidian';
-import UniqueIdPlugin from './main';
+import UniqueIdPlugin from '../main';
 import { idTypeList } from './id-types';
 import { getNoteStats, handleBulkIdOperation } from './utils';
 import { ConfirmModal } from './modals';
