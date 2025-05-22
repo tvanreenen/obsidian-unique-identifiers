@@ -17,11 +17,11 @@
 
 ## Example
 
-Each ID type uses a frontmatter property of the same name (e.g., `uuid`, `cuid`, `nanoid`, `ulid`, `ksuid`). If you select `ulid` as your ID type, your note's frontmatter will look like:
+Each ID type uses a frontmatter property of the same name (e.g., `uuid`, `cuid`, `nanoid`, `ulid`, `ksuid`). If you select `uuid` as your ID type, your note's frontmatter will look like:
 
 ```yaml
 ---
-ulid: 01H8YQ2K4ZJ8V7Q2K4ZJ8V7Q2K
+uuid: 01H8YQ2K4ZJ8V7Q2K4ZJ8V7Q2K
 ---
 ```
 
