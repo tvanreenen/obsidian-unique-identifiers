@@ -1,6 +1,6 @@
 import { App, PluginSettingTab, Setting, normalizePath } from 'obsidian';
 import UniqueIdPlugin from '../main';
-import { idTypeList } from './id-types';
+import { idTypeList, IdType } from './id-types';
 import { getNoteStats, handleBulkIdOperation } from './utils';
 import { ConfirmModal } from './modals';
 
@@ -42,7 +42,7 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 				});
 				drop.setValue(this.plugin.settings.idType);
 				drop.onChange(async (value) => {
-					this.plugin.settings.idType = value as any;
+					this.plugin.settings.idType = value as IdType;
 					await this.plugin.saveSettings();
 				});
 			});
@@ -96,7 +96,6 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 				bar.setValue(percent);
 				const barEl = setting.settingEl.querySelector('.setting-progress-bar') as HTMLElement;
 				if (barEl) {
-					barEl.style.width = '100px';
 					barEl.title = `${withCount} of ${stats.total} notes (${percent}%)`;
 				}
 				barRef = { bar, barEl };

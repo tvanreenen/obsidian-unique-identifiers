@@ -6,4 +6,4 @@ export const idTypeList = [
   { type: 'ksuid', label: 'KSUID', desc: 'K-Sortable Unique Identifier', url: 'https://github.com/ValeriaVG/xksuid' },
 ];
 
-export type IdTypeKey = typeof idTypeList[number]['type']; 
+export type IdType = 'uuid' | 'ulid' | 'nanoid' | 'cuid' | 'ksuid';
