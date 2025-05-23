@@ -1,7 +1,7 @@
 {
 	"id": "unique-identifiers",
 	"name": "Unique Identifiers",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
 	"description": "Adds unique ID properties (UUID, CUID, NanoID, ULID, or KSUID) to note frontmatter. Supports auto-assignment and bulk operations to fill, refresh, or remove IDs.",
 	"author": "Tim VanReenen",
