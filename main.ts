@@ -2,7 +2,7 @@ import { Plugin, TFile, Notice } from 'obsidian';
 import { UniqueIdSettingTab } from './src/settings';
 import { generateId, isExcluded } from './src/utils';
 
-interface UniqueIdSettings {
+export interface UniqueIdSettings {
   idType: 'uuid' | 'ulid' | 'nanoid' | 'cuid' | `ksuid`;
   excludePaths: string[];
   autoAssignOnCreate: boolean;
@@ -33,7 +33,7 @@ export default class UniqueIdPlugin extends Plugin {
     this.addCommand({
       id: 'add-or-refresh-id-current-note',
       name: 'Add or Refresh ID for Current Note',
-      callback: async () => {
+      editorCallback: async () => {
         const file = this.app.workspace.getActiveFile();
         if (file) {
           await this.tryAssignId(file, true);

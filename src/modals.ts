@@ -1,4 +1,3 @@
-// modals.ts
 import { Modal, App } from 'obsidian';
 
 export class ConfirmModal extends Modal {
@@ -11,7 +10,7 @@ export class ConfirmModal extends Modal {
 	}
 
 	onOpen() {
-		this.setTitle('Confirm Action');
+		this.setTitle('Confirm action');
 		const frag = createFragment();
 
 		frag.createEl('p', { text: this.message });

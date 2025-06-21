@@ -1,9 +1,10 @@
-import { App, TFile, Notice } from 'obsidian';
+import { App, TFile, Notice, Vault, FileManager, MetadataCache, FrontMatterCache } from 'obsidian';
 import { v4 as uuidv4 } from 'uuid';
 import { ulid } from 'ulid';
 import { nanoid } from 'nanoid';
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import { generate as ksuid } from 'xksuid';
+import { UniqueIdSettings } from '../main';
 
 export function generateId(type: string): string {
 	switch (type) {
@@ -42,27 +43,27 @@ export async function getNoteStats(app: App, excludePaths: string[]): Promise<No
 }
 
 export async function handleBulkIdOperation(
-	vault: any,
-	fileManager: any,
-	metadataCache: any,
-	settings: any,
+	vault: Vault,
+	fileManager: FileManager,
+	metadataCache: MetadataCache,
+	settings: UniqueIdSettings,
 	type: string,
 	updateProgressBar: (completed: number, total: number) => void,
 	operation: 'add' | 'remove'
 ) {
 	const files = vault.getMarkdownFiles()
-		.filter((f: any) => !settings.excludePaths.some((prefix: string) => f.path.startsWith(prefix)))
-		.map((file: any) => ({
+		.filter((f: TFile) => !settings.excludePaths.some((prefix: string) => f.path.startsWith(prefix)))
+		.map((file: TFile) => ({
 			file,
 			hasId: !!(metadataCache.getFileCache(file)?.frontmatter?.[type])
 		}));
 	const total = files.length;
 	let changedCount = 0;
-	let completed = files.filter((f: any) => f.hasId).length;
+	let completed = files.filter(f => f.hasId).length;
 	updateProgressBar(completed, total);
 
 	for (const { file, hasId } of files) {
-		await fileManager.processFrontMatter(file, (frontmatter: any) => {
+		await fileManager.processFrontMatter(file, (frontmatter: FrontMatterCache) => {
 			if (operation === 'add' && !hasId && !frontmatter[type]) {
 				frontmatter[type] = generateId(type);
 				changedCount++;

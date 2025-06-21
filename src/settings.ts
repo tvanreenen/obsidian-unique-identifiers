@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting, normalizePath } from 'obsidian';
+import { App, PluginSettingTab, Setting, normalizePath, ProgressBarComponent, ExtraButtonComponent } from 'obsidian';
 import UniqueIdPlugin from '../main';
 import { idTypeList, IdType } from './id-types';
 import { getNoteStats, handleBulkIdOperation } from './utils';
@@ -16,15 +16,10 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 
 		const { containerEl } = this;
 		containerEl.empty();
-		containerEl.createEl('h1', { text: 'Unique Identifiers' });
-
-		// new Setting(containerEl)
-		// 	.setName('Settings')
-		// 	.setHeading();
 
 		new Setting(containerEl)
-			.setName('Automatically Add to New Notes')
-			.setDesc('Add a unique ID to the frontmatter whenever a new note is created')
+			.setName('Automatically add unique ID to new notes')
+			.setDesc('Adds a unique identifier to the frontmatter each time a note is created.')
 			.addToggle(toggle => {
 				toggle.setValue(this.plugin.settings.autoAssignOnCreate);
 				toggle.onChange(async (value) => {
@@ -34,8 +29,8 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Type of Unique Identifier to Add')
-			.setDesc('Choose which type of unique ID to add to your notes\' frontmatter.')
+			.setName('Type of unique ID')
+			.setDesc("Choose the kind of unique identifier to insert in your notes’ frontmatter.")
 			.addDropdown(drop => {
 				idTypeList.forEach(({ type, label, desc, url }) => {
 					drop.addOption(type, type);
@@ -48,8 +43,8 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Exclude Paths')
-			.setDesc('List of folders or files to exclude (one per line)')
+			.setName('Exclude paths')
+			.setDesc('List folders or files to ignore when assigning unique IDs (one per line).')
 			.addTextArea(text => {
 				text.setValue(this.plugin.settings.excludePaths.join('\n'));
 				text.inputEl.rows = 4;
@@ -64,7 +59,7 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Backfill & Conversion')
+			.setName('Backfill & conversion')
 			.setHeading();
 
 		// --- Per-ID-Type Progress Bars and Actions ---
@@ -74,11 +69,11 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 			const percent = stats.total > 0 ? Math.round((withCount / stats.total) * 100) : 0;
 
 
-			const descFrag = document.createDocumentFragment();
-			const descSpan = document.createElement('span');
+			const descFrag = createFragment()
+			const descSpan = createSpan()
 			descSpan.textContent = desc + " ";
 			if (url) {
-				const link = document.createElement('a');
+				const link = createEl('a');
 				link.href = url;
 				link.textContent = 'GitHub';
 				link.target = '_blank';
@@ -90,14 +85,11 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 				.setName(label)
 				.setDesc(descFrag);
 
-			// @ts-ignore
-			let barRef: any = null;
-			setting.addProgressBar(bar => {
+			let barRef: { bar: ProgressBarComponent; barEl: HTMLElement } | null = null;
+			setting.addProgressBar((bar: ProgressBarComponent) => {
 				bar.setValue(percent);
 				const barEl = setting.settingEl.querySelector('.setting-progress-bar') as HTMLElement;
-				if (barEl) {
-					barEl.title = `${withCount} of ${stats.total} notes (${percent}%)`;
-				}
+				barEl.title = `${withCount} of ${stats.total} notes (${percent}%)`;
 				barRef = { bar, barEl };
 			});
 
@@ -108,17 +100,14 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 					lastPercent = percent;
 					if (barRef) {
 						barRef.bar.setValue(Math.round(percent));
-						if (barRef.barEl) {
-							barRef.barEl.title = `${completed} of ${total} notes (${percent}%)`;
-						}
+						barRef.barEl.title = `${completed} of ${total} notes (${percent}%)`;
 					}
 				}
 			};
 
-			// @ts-ignore
-			setting.addExtraButton(btn => {
+			setting.addExtraButton((btn: ExtraButtonComponent) => {
 				btn.setIcon('lucide-plus')
-					.setTooltip('Apply to All Notes')
+					.setTooltip('Apply to all notes')
 					.onClick(() => {
 						new ConfirmModal(
 							this.app,
@@ -135,14 +124,13 @@ export class UniqueIdSettingTab extends PluginSettingTab {
 						).open();
 					});
 			});
-			// @ts-ignore
-			setting.addExtraButton(btn => {
+			setting.addExtraButton((btn: ExtraButtonComponent) => {
 				btn.setIcon('lucide-x')
-					.setTooltip('Remove from All Notes')
+					.setTooltip('Remove from all notes')
 					.onClick(() => {
 						new ConfirmModal(
 							this.app,
-							`Are you sure you want to remove the ${type} property from all notes?`,
+							`Are you sure you want to remove the '${type}' property from all notes?`,
 							() => handleBulkIdOperation(
 								this.app.vault,
 								this.app.fileManager,
