@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-unique-id",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Automatically assign and manage unique IDs in your Obsidian notes with support for UUID, ULID, NanoID, and CUID.",
 	"main": "main.js",
 	"scripts": {
